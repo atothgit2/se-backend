@@ -24,14 +24,3 @@ export const getFileList = async (_req: express.Request, res: express.Response, 
   const data : any = await requestFileList();
   res.status(200).send(JSON.stringify(data))
 };
-
-// TODO - move to service layer
-// const requestFileList = async (): Promise<string> => {
-//   try {
-//     const data = await fs.promises.readdir(path.join(__dirname, "..", "..", "..", "uploads"));
-//     return JSON.stringify(data);
-//   } catch (err) {
-//     console.error(err);
-//     throw err;
-//   }
-// };

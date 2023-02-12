@@ -4,8 +4,8 @@
   "description": "",
   "main": "bin/server.js",
   "scripts": {
-    "dev": "nodemon",
-    "start": "npx cross-env NODE_PATH=.. node bin/server.js",
+    "dev": "nodemon --watch ..",
+    "start": "node node_modules/cross-env NODE_PATH=.. node bin/server.js",
     "prestart": "npm run build",
     "build": "npm run clean && tsc",
     "clean": "rimraf dist/",
