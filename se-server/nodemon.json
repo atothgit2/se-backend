@@ -6,6 +6,6 @@
   "watch": ["./src"], 
   "ext": "ts, js, json", 
   "ignore": ["node_modules", "coverage", "dist", "uploads"],
-  "exec": "tsc && node bin/server.js",
+  "exec": "tsc && npx cross-env NODE_PATH=.. node bin/server.js",
   "restartable": "rs"
 }

@@ -1,6 +1,5 @@
 import express from "express";
-import * as fs from "fs";
-import * as path from "path";
+import { requestFileList } from "se-api";
 
 const HAPPY_THRESHOLD = 0.3;
 
@@ -27,12 +26,12 @@ export const getFileList = async (_req: express.Request, res: express.Response, 
 };
 
 // TODO - move to service layer
-const requestFileList = async (): Promise<string> => {
-  try {
-    const data = await fs.promises.readdir(path.join(__dirname, "..", "..", "..", "uploads"));
-    return JSON.stringify(data);
-  } catch (err) {
-    console.error(err);
-    throw err;
-  }
-};
+// const requestFileList = async (): Promise<string> => {
+//   try {
+//     const data = await fs.promises.readdir(path.join(__dirname, "..", "..", "..", "uploads"));
+//     return JSON.stringify(data);
+//   } catch (err) {
+//     console.error(err);
+//     throw err;
+//   }
+// };
