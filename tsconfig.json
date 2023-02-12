@@ -1,0 +1,25 @@
+{
+    "compilerOptions": {
+        // "baseUrl": "packages",
+        "declaration": true,
+        "sourceMap": true,
+
+        "module": "commonjs",
+        "target": "es5",
+        "lib": [ "es2015", "dom" ],
+        
+        "allowJs": false,
+        "importHelpers": true,
+        "noImplicitAny": true,
+        // TODO ezt visszakapcsolni, mit csinál??? https://bobbyhadz.com/blog/typescript-not-all-code-paths-return-a-value
+        // "noImplicitReturns": true,
+        "noUnusedLocals": true,
+        "noUnusedParameters": true,
+        "strict": true,
+        "allowSyntheticDefaultImports": true
+    },
+    "exclude": [
+        "node_modules",
+        "dist"
+    ]
+}
