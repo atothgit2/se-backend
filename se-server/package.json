@@ -5,7 +5,7 @@
   "main": "bin/server.js",
   "scripts": {
     "dev": "nodemon",
-    "start": "node bin/server.js",
+    "start": "node node_modules/cross-env NODE_PATH=.. node bin/server.js",
     "prestart": "npm run build",
     "build": "npm run clean && tsc",
     "clean": "rimraf dist/",
@@ -22,7 +22,7 @@
     "@types/multer": "^1.4.7",
     "@types/node": "^18.11.18",
     "cors": "^2.8.5",
-    "cross-env": "^5.1.4",
+    "cross-env": "^5.2.1",
     "dotenv": "^16.0.3",
     "express": "^4.16.3",
     "nodemon": "^2.0.20",
