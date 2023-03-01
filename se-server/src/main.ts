@@ -11,7 +11,7 @@ const app = express();
 app.use(express.urlencoded({ extended: false }));
 /** Takes care of JSON data */
 app.use(express.json());
-// app.use(express.text());
+app.use(express.text());
 /** handle browser preflight conditions */
 app.use(cors());
 app.options('*', cors())
@@ -43,4 +43,4 @@ app.use('/', router);
 // TODO should reintroduce 'http' package? -->
 // const httpServer = http.createServer(app);
 const PORT: number = 3000;
-app.listen(PORT, () => console.log(`Example app listening on port ${PORT}!`));
+app.listen(PORT, () => console.log(`*** Example app listening on port ${PORT}! ***`));

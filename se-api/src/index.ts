@@ -1,13 +1,13 @@
-import * as fs from "fs";
 import * as path from "path";
+import * as fs from "fs";
+// TODO: ez miért nem kell már?
 // import * as multer from "multer";
-
 // const upload = multer({ dest: "../uploads" });
 
 export const requestFileList = async (): Promise<string> => {
   try {
     const data = await fs.promises.readdir(
-      path.join(__dirname, "..", "..", "source-files")
+      path.join(__dirname, "..", "..", "uploads")
     );
     return JSON.stringify(data);
   } catch (err) {
@@ -16,10 +16,10 @@ export const requestFileList = async (): Promise<string> => {
   }
 };
 
-export const requestFileContent = async (fileId: string): Promise<any> => {
+export const requestFileContent = async (fileId: string): Promise<string> => {
   try {
     const data = await fs.promises.readFile(
-      path.join(__dirname, "..", "..", "source-files", fileId),
+      path.join(__dirname, "..", "..", "uploads", fileId),
       "utf8"
     );
     return JSON.stringify(data);
@@ -29,12 +29,25 @@ export const requestFileContent = async (fileId: string): Promise<any> => {
   }
 };
 
-export const requestUpload = async () => {
+export const requestUpload = async (originalFileName : string, newFileName : string, filePath : string, metadata : string) => {
   try {
-      // upload.single("file")
-      const test = "test"
-      return test    
+    fs.rename(`${filePath}/${originalFileName}`, `${filePath}/${newFileName}`, (err) => {
+      if (err) throw err;
+    });
+    fs.writeFile(`${filePath}/${originalFileName}.json`, metadata, (err) => {
+      if (err) throw err;
+    });
   } catch (err) {
     console.error(err);
-  } 
+  }
+};
+
+export const requestModify = async (id: string, newContent : string) => {
+  try {
+    fs.writeFile(path.join(__dirname, "..", "..", "uploads", `${id}`), newContent, (err) => {
+      if (err) throw err;
+    });
+  } catch (err) {
+    console.error(err);
+  }
 };
