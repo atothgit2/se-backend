@@ -36,12 +36,12 @@ FE
 ```
 Vanilla JS
 ```
-* [x] UI keszitese a milestone 1 api-hoz
+* [ ] UI keszitese a milestone 1 api-hoz
 
 * Landing page
-    * [x] Kilistazzuk a backend-en tarolt fileokat (tablazatban)
-    * [x] A tablazat utolso cellaja tartalmazzok action-oket a torles, szerkeztes, es lekerdezeshez
-    * [x] Torles elott legyen egy confirm window es csak utana tortenjen meg az eltavolitas a backendrol
+    * [ ] Kilistazzuk a backend-en tarolt fileokat (tablazatban)
+    * [ ] A tablazat utolso cellaja tartalmazzok action-oket a torles, szerkeztes, es lekerdezeshez
+    * [ ] Torles elott legyen egy confirm window es csak utana tortenjen meg az eltavolitas a backendrol
     * [ ] Upload gomb es input uj file feltolteshez (legyen a file neve is megadhato)
 * Szerkeszto oldal
     * [ ] A tablazatbol kivalasztott file legyen szerkesztheto es elmentheto itt

@@ -8,7 +8,7 @@
         "target": "es5",
         "lib": [ "es2015", "dom" ],
         
-        "allowJs": false,
+        "allowJs": true,
         "importHelpers": true,
         "noImplicitAny": true,
         // TODO ezt visszakapcsolni, mit csinál??? https://bobbyhadz.com/blog/typescript-not-all-code-paths-return-a-value
