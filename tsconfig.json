@@ -3,6 +3,7 @@
         "baseUrl": "./",
         "declaration": true,
         "sourceMap": true,
+        "outDir": "./dist",
 
         "module": "commonjs",
         "target": "es5",
