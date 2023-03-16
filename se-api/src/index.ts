@@ -1,15 +1,13 @@
 import * as path from "path";
 import * as fs from "fs";
 // TODO: ez miért nem kell már?
-// import * as multer from "multer";
-// const upload = multer({ dest: "../uploads" });
+// import * as multer from 'multer';
+// const upload = multer({ dest: '../uploads' });
 
-export const requestFileList = async (): Promise<string> => {
+export const requestFileList = async (path: fs.PathLike): Promise<string[]> => {
   try {
-    const data = await fs.promises.readdir(
-      path.join(__dirname, "..", "..", "uploads")
-    );
-    return JSON.stringify(data);
+    const data = await fs.promises.readdir(path);
+    return data;
   } catch (err) {
     console.error(err);
     throw err;
@@ -19,17 +17,21 @@ export const requestFileList = async (): Promise<string> => {
 export const requestFileContent = async (fileId: string): Promise<string> => {
   try {
     const data = await fs.promises.readFile(
-      path.join(__dirname, "..", "..", "uploads", fileId),
-      "utf8"
+      path.join(__dirname, "..", "..", "uploads", fileId)
     );
-    return JSON.stringify(data);
+    return data.toString();
   } catch (err) {
     console.error(err);
     throw err;
   }
 };
 
-export const requestUpload = async (originalFileName : string, newFileName : string, filePath : string, metadata : string) => {
+export const requestUpload = async (
+  originalFileName: string,
+  newFileName: string,
+  filePath: string,
+  metadata: string
+) => {
   try {
     fs.rename(`${filePath}/${originalFileName}`, `${filePath}/${newFileName}`, (err) => {
       if (err) throw err;
@@ -42,9 +44,10 @@ export const requestUpload = async (originalFileName : string, newFileName : str
   }
 };
 
-export const requestModify = async (id: string, newContent : string) => {
+// TODO: interfacebe szervezni, több helyen is szerepel
+export const requestModify = async (id: string, newContent: { fileContent: string }) => {
   try {
-    fs.writeFile(path.join(__dirname, "..", "..", "uploads", id), newContent, (err) => {
+    fs.writeFile(path.join(__dirname, "..", "..", "uploads", id), newContent.fileContent, (err) => {
       if (err) throw err;
     });
   } catch (err) {
@@ -54,13 +57,9 @@ export const requestModify = async (id: string, newContent : string) => {
 
 export const requestDeletion = async (id: string) => {
   try {
-    fs.rm(
-      path.join(__dirname, "..", "..", "uploads", id),
-      { recursive: true },
-      (err) => {
-        if (err) throw err;
-      }
-    );
+    fs.rm(path.join(__dirname, "..", "..", "uploads", id), { recursive: true }, (err) => {
+      if (err) throw err;
+    });
   } catch (err) {
     console.error(err);
   }

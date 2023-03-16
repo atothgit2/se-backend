@@ -1,15 +1,15 @@
 import express from "express";
+import * as path from "path"
 import { requestFileList, requestFileContent, requestUpload, requestModify, requestDeletion } from "se-api";
-// import fs from "fs";
 
 export const getFileList = async (_req: express.Request, res: express.Response, _next: Function) => {
-  const data : any = await requestFileList();
+  const data : any = await requestFileList(path.join(__dirname, "..", "..", "..", "uploads"));
   res.status(200).send(JSON.stringify(data))
 };
 
 export const getFileContent = async (req: express.Request, res: express.Response, _next: Function) => {
   let id: string = req.params.id;
-  let data: any = await requestFileContent(id);
+  let data: string = await requestFileContent(id);
   res.status(200).send(data);
 };
 
@@ -20,7 +20,8 @@ export const uploadFile = async (req: express.Request, res: express.Response, _n
 
 export const modifyFile = async (req: express.Request, res: express.Response, _next: Function)=> {
   let id: string = req.params.id;
-  let data : string = JSON.stringify(req.body);
+  // TODO: interfacebe szervezni, több helyen is szerepel
+  let data : {fileContent: string} = req.body;
   await requestModify(id, data);
   res.status(200).send(`Content modified!`);
 }

@@ -1,104 +1,113 @@
-import { fetchFileContent } from "../functions/call-api";
+export const populateTable = (filenames: string[], tableId: string) => {
+  let table = document.getElementById(tableId) as HTMLTableElement;
+  let tbody: HTMLTableSectionElement | undefined = table?.getElementsByTagName("tbody")[0];
 
-//TODO move to env vars
-const url = "http://localhost:3000"
-
-export const createNewTableRow = (tableId: string, fileListArray: string[]) => {
-  if (fileListArray != null) {
-    for (let i = 0; i < fileListArray.length; i++) {
-      let table = document.getElementById(tableId) as HTMLTableElement;
-      let body: HTMLTableSectionElement | undefined = table.getElementsByTagName("tbody")[0];
-      let row: HTMLTableRowElement | undefined = body.insertRow(-1);
-      let filename = fileListArray[i];
-
-      for (let j = 0; j < table.rows[0].cells.length; j++) {
-        let cell = row.insertCell(j);
-        let columnHeader = document.querySelectorAll(".table-header")[j].id;
-
-        switch (columnHeader) {
-          case "filename":
-            cell.className = "tg-cell filename " + filename;
-            cell.innerHTML += filename;
-            break;
-          case "id":
-            cell.className = "tg-cell id " + filename.slice(0, -4);
-            cell.innerHTML += "id";
-            break;
-          case "title":
-            cell.className = "tg-cell title " + filename.slice(0, -4);
-            cell.innerHTML += "title";
-            break;
-          case "imdb":
-            cell.className = "tg-cell imdb " + filename.slice(0, -4);
-            cell.innerHTML += "imdb";
-            break;
-          case "actions":
-            cell.className = "tg-cell actions " + filename.slice(0, -4);
-
-            const button_view = cell.appendChild(document.createElement("input"));
-            button_view.type = "button";
-            button_view.className = "submit-button view " + filename.slice(0, -4);
-            button_view.value = "View";
-            button_view.id = "view-button";
-            button_view.onclick = async () => {
-              console.log(filename);
-              let content = await fetchFileContent(url, filename.slice(0, -4), "srt");
-              // TODO: .slice() kell?
-              createTextBox(content);
-            };
-
-            const button_delete = cell.appendChild(document.createElement("input"));
-            button_delete.type = "button";
-            button_delete.className = "submit-button delete " + filename.slice(0, -4);
-            button_delete.value = "Delete";
-            button_delete.id = "delete-button";
-            button_delete.onclick = async () => {
-              return filename;
-            };
-
-            //   document.getElementById(`delete-file-submit-${filename}`).onclick =
-            //     async () => {
-            //       if (confirm("Are you sure?") == true) {
-            //         await deleteFile(url, filename);
-            //       }
-            //     };
-
-            break;
-        }
-      }
-    }
-  } else {
-    let table = document.getElementById(tableId) as HTMLTableElement;
-    console.log(table);
-    console.log(typeof table);
-    let body: HTMLTableSectionElement | undefined = table?.getElementsByTagName("tbody")[0];
-    let row: HTMLTableRowElement | undefined = body?.insertRow(-1);
-    let cell: HTMLTableCellElement | undefined = row?.insertCell(0);
+  if (filenames == null) {
+    let cell: HTMLTableCellElement | undefined = tbody?.insertRow(-1).insertCell(0);
     cell.colSpan = table?.rows[0].cells.length;
     cell.innerText = "No data!";
     cell.style.textAlign = "center";
+  } else {
+    for (let i = 0; i < filenames.length; i++) {
+      let currentFileName = filenames[i];
+      createNewTableRow("files-table", currentFileName);
+      createButton("view-button", tbody.rows[i], "View", currentFileName.slice(0, -4));
+      createButton("delete-button", tbody.rows[i], "Delete", currentFileName.slice(0, -4));
+    }
   }
 };
 
-const createTextBox = (text: string) => {
+export const createTextBox = (text: string, fileId: string) => {
+  // if (document.getElementById('content-box') || document.getElementById('update-button')) {
+  //   removeTextBox();
+  // }
+
   let form: HTMLElement | null = document.getElementById("upload-form");
-  if (
-    document.getElementById("content-box") ||
-    document.getElementById("update-button")
-  ) {
-    let textFieldElement = document.getElementById("content-box");
-    let updateButtonElement = document.getElementById("update-button");
-    textFieldElement?.remove();
-    updateButtonElement?.remove();
-  }
-  let textbox: HTMLTextAreaElement | undefined = form!.appendChild(document.createElement("textarea"));
+
+  let textbox: HTMLTextAreaElement | undefined = form!.appendChild(
+    document.createElement("textarea")
+  );
   textbox.id = "content-box";
-  textbox.className = "form-element textbox";
+  textbox.className = "textbox";
   textbox.value = text;
 
-  let updateButton: HTMLInputElement | undefined = form!.appendChild(document.createElement("input"));
-  updateButton.type = "submit";
-  updateButton.id = "update-button";
-  updateButton.className = "form-element submit-button";
+  let updateButton: HTMLInputElement | undefined = form!.appendChild(
+    document.createElement("input")
+  );
+  updateButton.type = "button";
+  updateButton.id = fileId;
+  updateButton.className = "update-button";
   updateButton.value = "Update";
+
+  let cancelButton: HTMLInputElement | undefined = form!.appendChild(
+    document.createElement("input")
+  );
+  cancelButton.type = "button";
+  cancelButton.id = "cancel-button";
+  cancelButton.className = "cancel-button";
+  cancelButton.value = "Cancel";
+
+  let testButton: HTMLInputElement | undefined = form!.appendChild(document.createElement("input"));
+  testButton.type = "button";
+  testButton.id = "test-button";
+  testButton.className = "test-button";
+  testButton.value = "Test";
+
+  document.getElementById("cancel-button")!.onclick = () => {
+    removeTextBox();
+  };
+};
+
+const createNewTableRow = (tableId: string, filename: string) => {
+  let table = document.getElementById(tableId) as HTMLTableElement;
+  let body: HTMLTableSectionElement | undefined = table.getElementsByTagName("tbody")[0];
+  let row: HTMLTableRowElement | undefined = body.insertRow(-1);
+
+  for (let j = 0; j < table.rows[0].cells.length; j++) {
+    let cell = row.insertCell(j);
+    let columnHeader = document.querySelectorAll(".table-header")[j].id;
+
+    switch (columnHeader) {
+      case "filename":
+        cell.className = "tg-cell filename";
+        cell.innerHTML += filename;
+        cell.id = filename.slice(0, -4);
+        break;
+      // TODO metaadatokat kiolvasni
+      case "id":
+        cell.className = "tg-cell id";
+        cell.innerHTML += "id";
+        cell.id = filename.slice(0, -4);
+        break;
+      case "title":
+        cell.className = "tg-cell title";
+        cell.innerHTML += "title";
+        cell.id = filename.slice(0, -4);
+        break;
+      case "imdb":
+        cell.className = "tg-cell imdb";
+        cell.innerHTML += "imdb";
+        cell.id = filename.slice(0, -4);
+        break;
+      case "actions":
+        cell.className = "tg-cell actions";
+        cell.id = filename.slice(0, -4);
+        break;
+    }
+  }
+};
+
+const createButton = (className: string, row: HTMLTableRowElement, buttonName: string, buttonId: string) => {
+  const button = row.cells[4].appendChild(document.createElement("input"));
+  button.type = "button";
+  button.className = className;
+  button.value = buttonName;
+  button.id = buttonId;
+};
+
+const removeTextBox = () => {
+  document.getElementById("content-box")?.remove();
+  document.getElementsByClassName("update-button")[0]?.remove();
+  document.getElementById("cancel-button")?.remove();
+  document.getElementById("test-button")?.remove();
 };

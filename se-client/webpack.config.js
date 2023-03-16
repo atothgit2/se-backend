@@ -1,12 +1,14 @@
 module.exports = {
   watch: true,
-  mode: "none",
+  mode: "development",
   devtool: "inline-source-map",
   entry: './src/index.ts',
   output: {
+    path: __dirname + '/dist',
     filename: 'bundle.js',
-    path: __dirname + '/dist'
+    sourceMapFilename: "bundle.js.map"
   },
+  devtool: "source-map",
   resolve: {
     extensions: ['.ts', '.js']
   },

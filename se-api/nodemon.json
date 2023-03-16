@@ -3,9 +3,9 @@
     "restart": "tsc"
   },
   "delay": 2000,
-  "watch": ["./src"], 
-  "ext": "ts, js, json", 
-  "ignore": ["node_modules", "dist"],
-  "exec": "tsc",
+  "watch": ["./src"],
+  "ext": "ts, js, json",
+  "ignore": ["node_modules", "coverage", "dist", "uploads"],
+  "exec": "tsc && npx cross-env NODE_PATH=.. node dist/index.js",
   "restartable": "rs"
 }

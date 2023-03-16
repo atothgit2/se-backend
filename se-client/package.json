@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "dist/index.js",
   "scripts": {
-    "dev": "tsc && nodemon --watch",
+    "dev": "webpack",
     "build": "npm run clean && webpack",
     "clean": "rimraf dist/",
     "serve": "webpack-dev-server"

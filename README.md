@@ -39,7 +39,7 @@ Vanilla JS
 * [ ] UI keszitese a milestone 1 api-hoz
 
 * Landing page
-    * [ ] Kilistazzuk a backend-en tarolt fileokat (tablazatban)
+    * [x] Kilistazzuk a backend-en tarolt fileokat (tablazatban)
     * [ ] A tablazat utolso cellaja tartalmazzok action-oket a torles, szerkeztes, es lekerdezeshez
     * [ ] Torles elott legyen egy confirm window es csak utana tortenjen meg az eltavolitas a backendrol
     * [ ] Upload gomb es input uj file feltolteshez (legyen a file neve is megadhato)
