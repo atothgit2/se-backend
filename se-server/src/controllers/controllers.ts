@@ -1,9 +1,9 @@
-import express from "express";
-import * as path from "path"
-import { requestFileList, requestFileContent, requestUpload, requestModify, requestDeletion } from "se-api";
+import express from 'express';
+import * as path from 'path'
+import { requestFileList, requestFileContent, requestUpload, requestModify, requestDeletion } from 'se-api';
 
 export const getFileList = async (_req: express.Request, res: express.Response, _next: Function) => {
-  const data : any = await requestFileList(path.join(__dirname, "..", "..", "..", "uploads"));
+  const data : any = await requestFileList(path.join(__dirname, '..', '..', '..', 'uploads'));
   res.status(200).send(JSON.stringify(data))
 };
 

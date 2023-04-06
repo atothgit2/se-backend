@@ -1,7 +1,7 @@
-import { fetchFileContent, fetchFiles, updateFileContent } from './functions/call-api';
+import { deleteFile, fetchFileContent, fetchFiles, updateFileContent } from './functions/call-api';
 import { createTextBox, populateTable } from './functions/expand-html';
 
-//TODO move to env vars
+//TODO: move to env vars
 const baseUrl = 'http://localhost:3000';
 
 const main = async () => {              // be kell burkolni az await-et egy asyncbe, mert csak azon belül működik
@@ -9,37 +9,36 @@ const main = async () => {              // be kell burkolni az await-et egy asyn
   let fileList = await promise;         // az await indítja a munkát és meg is várja az eredményt, az async kód sync lesz
   let srtFiles = fileList.match(/[[a-zA-Z0-9]+\.srt*/gm) as string[];
 
-  populateTable(srtFiles, "files-table");
+  populateTable(srtFiles, 'files-table');
+  createTextBox();
 
-  document.addEventListener("click", async function (event) {
+  document.addEventListener('click', async function (event) {
     const target = event.target as HTMLElement;
-    let fileId: string = "";
+    let fileId: string = target.getAttribute('id') as string;
 
-    if (target.getAttribute("class") === "view-button") {
-      fileId = target.getAttribute("id") as string;
-      const fileContent = await fetchFileContent(baseUrl, fileId, "srt");
-      createTextBox(fileContent, fileId);
-    }
+    switch (target.getAttribute('class')) {
+      case 'delete-button':
+        deleteFile(baseUrl, fileId, 'srt');
+        deleteFile(baseUrl, fileId, 'json');
+        break;
 
-    if (target.getAttribute("class") === "delete-button") {
-      fileId = target.getAttribute("id") as string;
-      console.log(fileId);
-    }
+      case 'view-button':
+        const fileContent = await fetchFileContent(baseUrl, fileId, 'srt');
+        createTextBox(fileContent, fileId);
+        break;
 
-    // TODO: ne tűnjön el a textbox update után!
-    if (target.getAttribute("class") === "update-button") {
-      let textbox = document.getElementById("content-box") as HTMLTextAreaElement;
-      let updateButton = document.getElementsByClassName("update-button");
-      // TODO: interfacebe szervezni, több helyen is szerepel
-      if (confirm("Are you sure?") == true) {
-        await updateFileContent(baseUrl, updateButton[0].id, "srt", { fileContent: textbox.value });
-      }
+      case 'update-button':
+        let textbox = document.getElementById('content-box') as HTMLTextAreaElement;
+        if (confirm('Are you sure?') == true) {
+          await updateFileContent(baseUrl, target.id, 'srt', { fileContent: textbox.value }); // TODO: interfacebe szervezni, több helyen is szerepel
+        }
+        break;
+
+      case 'cancel-button':
+        createTextBox();
+        break;
     }
   });
 };
 
 main();
-
-// button?.addEventListener('click', function() {
-//   console.log('yey');
-// });

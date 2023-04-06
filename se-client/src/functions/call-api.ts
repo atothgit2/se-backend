@@ -10,7 +10,11 @@ export const fetchFiles = async (url: string): Promise<string> => {
   return await promise;
 };
 
-export const fetchFileContent = async (url: string, id: string, extension: string ): Promise<string> => {
+export const fetchFileContent = async (
+  url: string,
+  id: string,
+  extension: string
+): Promise<string> => {
   let promise = axios
     .get(url + "/file/" + id + "." + extension, { responseType: "text", responseEncoding: "utf8" })
     .then((response) => {
@@ -21,7 +25,12 @@ export const fetchFileContent = async (url: string, id: string, extension: strin
 };
 
 // TODO: interfacebe szervezni, több helyen is szerepel
-export const updateFileContent = async (url: string, id: string, extension: string, data: { fileContent: string }) => {
+export const updateFileContent = async (
+  url: string,
+  id: string,
+  extension: string,
+  data: { fileContent: string }
+) => {
   const options = {
     method: "PUT",
     headers: { responseType: "json", responseEncoding: "utf8" },
@@ -35,4 +44,13 @@ export const updateFileContent = async (url: string, id: string, extension: stri
     })
     .catch((err) => console.log(err));
   return await promise;
+};
+
+export const deleteFile = async (url: string, id: string, extension: string) => {
+  await axios
+    .delete(url + "/file/" + id + "." + extension)
+    .then((response) => {
+      return response.data;
+    })
+    .catch((err) => console.log(err));
 };
